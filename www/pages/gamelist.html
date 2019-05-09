@@ -1,0 +1,178 @@
+<template>
+  <div class="page" data-name="gamelist">
+    <div class="navbar">
+      <div class="navbar-inner sliding">
+          <div class="left">
+              <a href="#" class="link back">
+                <i class="icon icon-back"></i>
+                <span class="ios-only">Back</span>
+              </a>
+            </div>
+        <div class="title">Game List </div>
+        <div class="right">
+            <a class="link" href="/gramelist/new/">+</a>
+        </div>
+      </div>
+      <div class="subnavbar">
+          <!-- Searchbar with auto init -->
+          <form class="searchbar">
+            <div class="searchbar-inner">
+              <div class="searchbar-input-wrap">
+                <input type="search" placeholder="Search">
+                <i class="searchbar-icon"></i>
+                <span class="input-clear-button"></span>
+              </div>
+              <span class="searchbar-disable-button if-not-aurora">Cancel</span>
+            </div>
+          </form>
+        </div>
+         <!-- Searchbar backdrop -->
+         <div class="searchbar-backdrop"></div>
+    </div>
+    <div class="page-content  infinite-scroll-content"  data-infinite-distance="8" @infinite="loadmore">
+          <div class="list links-list  searchbar-found">
+            <ul>
+                {{#each items}}
+                <li><a href="/game/{{geventid}}/"><div class="item-title" >{{geventname}}</div></a></li>
+              {{/each}}
+            </ul>
+          </div>
+      {{#if @root.hasMoreItems}}
+      <div class="preloader infinite-scroll-preloader"></div> 
+      {{/if}}
+    </div>
+    <!-- Nothing found message >
+    <div class="block searchbar-not-found">
+        <div class="block-inner">Nothing found</div>
+      </div>
+    </div-->
+  </div>
+</template>
+<script>
+  return {
+    //data () {
+    //  return {
+    //      items: app.brokerdata
+    //  }
+    //},
+    
+    data() {
+                return {
+                  items : [],
+                  pages : null,
+                  currentpage : null,
+                  nextpage : null,
+                  lastpage : null,
+                  hasMoreItems : false
+                }
+            },
+    methods: {
+        fetchadmingroups() {
+
+            var self = this;
+            var app = self.$app;
+            var fetchpage = 0;
+            var udata= { 
+              groupid:  app.root.userdata.groupid
+            }
+            app.preloader.show();
+            if (self.currentpage==null) {
+              fetchpage=1;
+              self.currentpage=fetchpage;
+            } else {
+              fetchpage=self.nextpage;
+              self.currentpage=fetchpage;
+            }
+
+            //$base_param = $base_param + '&groupid=' + app.root.userdata.groupid;
+            app.request.post($base_url+'gameevents/read_paging.php'+$base_param + '&page=' + fetchpage, JSON.stringify(udata), (rdata) => {
+              rdata=JSON.parse(rdata);
+              var items = self.items.concat(rdata.records);
+              var lhasMoreItems=false;
+              if (rdata.paging.pages.length>1) lhasMoreItems=true;
+              if (self.currentpage==self.lastpage) lhasMoreItems=false;
+              //console.log(items)
+              self.$setState({
+                    items : items,
+                    pages: rdata.paging.pages,
+                    lastpage: rdata.paging.pages.length,
+                    hasMoreItems: lhasMoreItems
+
+                                            
+                })
+              
+              //get next page  
+            //console.log(self.items);
+            app.preloader.hide();
+            })  
+        },
+        loadmore() {
+            var self = this;
+            var app = self.$app;
+            var udata= { 
+              groupid:  app.root.userdata.groupid
+            }
+            var nextpage=null;
+            if (self.hasMoreItems==false) return;
+            for (idx in self.pages) {
+              page=self.pages[idx];
+              if (nextpage==null){
+                //console.log(page)
+                if (page.current_page=='yes'){
+                  nextpage=0;
+                }
+              } else {
+                nextpage=page.page;
+                self.$setState({
+                  nextpage : nextpage                                            
+                })
+                //console.log(nextpage);
+                self.nextpage=nextpage;
+               
+                
+                if (nextpage==self.lastpage) { 
+                  self.hasMoreItems = false
+                  self.$setState({
+                    hasMoreItems : false                                            
+                  })
+                }
+                break;
+              }
+              
+            } 
+            self.fetchadmingroups();
+            
+
+        }
+    },
+        
+    on: {
+        pageInit(e, page) {
+            var self = this;
+            var app = self.$app;
+            //self.fetchadminmenus(self.$route.params.id);
+            app.preloader.show();
+            self.fetchadmingroups();
+            //create searchbar
+            var searchbar = app.searchbar.create({
+            el: '.searchbar',
+            searchContainer: '.list',
+            searchIn: '.item-title',
+            on: {
+              search(sb, query, previousQuery) {
+                //console.log(query, previousQuery);
+              }
+            }
+          });
+
+
+
+        },
+    },
+
+
+
+
+
+    }
+</script>

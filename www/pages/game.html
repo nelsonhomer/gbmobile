@@ -1,0 +1,297 @@
+<template>
+  <div class="page" data-name="game">
+    <div class="navbar">
+      <div class="navbar-inner sliding">
+        <div class="left">
+          <a href="#" class="link back">
+            <i class="icon icon-back"></i>
+            <span class="ios-only">Back</span>
+          </a>
+        </div>
+        <div class="title">Edit Game</div>
+      </div>
+    </div>
+    <div class="page-content">
+        <form class="list" id="my-gameform">
+            <ul>
+              <li>
+                <div class="item-content item-input">
+                  <div class="item-inner">
+                    <div class="item-title item-label">Game Title</div>
+                    <div class="item-input-wrap">
+                      <input type="text" name="geventname" placeholder="Enter Game Title">
+                      <input type="hidden" name="geventid" >
+                    </div>
+                    <!--div class="item-title item-label">Sport Category</div>
+                    <div class="item-input-wrap">
+                      <input type="text" name="geventtype" placeholder="Select Game">
+                    </div-->
+                    <a class="item-link smart-select smart-select-init">
+                      <select name="geventtype">
+                        {{#each sportlist}}
+                        <option value="{{gtypeid}}" selected>{{gtypename}}</option>
+                        {{/each}}
+                      </select>
+                      <div class="item-content">
+                        <div class="item-inner">
+                          <div class="item-title">Sport Type</div>
+                        </div>
+                      </div>
+                    </a>
+                    <div class="item-title item-label">Game Start</div>
+                    <div class="item-input-wrap">
+                      <input type="text" name="ggamestart" placeholder="Pick date and time" id = "start-date">
+                      
+                     
+
+                    </div>
+                    <div class="item-title item-label">Game End</div>
+                    <div class="item-input-wrap">
+                      <input type="text" name="ggameend" placeholder="Pick date and time" id = "end-date">
+                    </div>
+                  </div>
+                </div>
+              </li>
+              
+            </ul>
+            <div class="block block-strong row">
+              <div class="col"><a class="button button-round button-fill form-save-data" href="#">Save</a></div>
+              <div class="col"><a class="button button-round button-fill form-delete-data" href="#">Delete</a></div>
+              <div class="col"><a class="button button-round button-fill form-delete-data" href="#">Publish</a></div>
+            </div>
+          </form>
+        
+      </div>
+    </div>
+  </div>
+  
+</template>
+<script>
+  
+
+
+
+
+  return {  
+    data() {
+                return {
+                  game : null,
+                  sportlist: null
+                }
+            },
+    currentid:null,
+    methods: {
+        fetchgroup(geventid) {
+            var self = this;
+            var app = self.$app;
+            var udata= { 
+              geventid:  geventid
+            }
+            
+            app.request.post($base_url+'gameevents/read_one.php'+$base_param, JSON.stringify(udata) ,(data)=> {
+                //create datepickers
+                
+                data=JSON.parse(data)
+                self.$setState({
+                  game: data   
+                })
+                game=data
+
+                //preload form
+                //console.log(game);
+                self.createdatepicker(game.ggamestart,'#start-date');
+                self.createdatepicker(game.ggameend,'#end-date');
+                app.form.fillFromData('#my-gameform', game);
+                app.preloader.hide();
+            })
+        },
+        //send and save form
+        savegame(udata) {
+            var self = this;
+            var app = self.$app;
+            //alert(app.root.userdata.groupid);
+            //alert(JSON.stringify($udata));
+            //return ;
+            app.preloader.show();
+           console.log(udata);
+            app.preloader.hide();
+            return;
+
+            
+            console.log(self.currentid)
+            app.request.post($base_url+'gamegroups/update.php'+$base_param, JSON.stringify(udata) ,(data)=> {
+                  
+                  result=JSON.parse(data);
+                  app.dialog.alert(result.message);
+                  //console.log(group);
+                  
+                  //preload form
+                  
+                  app.views.main.router.back('/grouplist/',{force:true});
+            })
+            app.preloader.hide();
+            
+        },
+        //send and delete form
+        delgame(udata) {
+            var self = this;
+            var app = self.$app;
+            //alert(app.root.userdata.groupid);
+            //alert(JSON.stringify($udata));
+            //return ;
+            app.preloader.show();
+            app.request.post($base_url+'gamegroups/delete.php'+$base_param, JSON.stringify(udata) ,(data)=> {
+              
+                result=JSON.parse(data);
+                app.dialog.alert(result.message);
+                //console.log(group);
+                
+                //preload form
+                app.preloader.hide();
+
+                app.views.main.router.back('/grouplist/',{force:true});
+
+                //self.$route.back();
+                //self.$route.refreshPage();
+            })
+        },
+        populatesportlistdata(udata) {
+            var self = this;
+            var app = self.$app;
+            app.request.post($base_url+'gameeventstype/read_paging.php'+$base_param , JSON.stringify(udata), (rdata) => {
+              rdata=JSON.parse(rdata);
+              var items = rdata.records;
+              self.$setState({
+                  sportlist: items   
+                })
+            });
+        },
+        createdatepicker(value,elementid){
+          console.log('create date picker');
+          var self = this;
+            var app = self.$app;
+            //var today = new Date(value);
+            var thisdate = new Date(value);
+            var pickerInline = app.picker.create({
+              //containerEl: '#demo-picker-date-container',
+              inputEl: elementid,
+              toolbar: false,
+              rotateEffect: true,
+              value: [
+                thisdate.getMonth(),
+                thisdate.getDate(),
+                thisdate.getFullYear(),
+                thisdate.getHours(),
+                thisdate.getMinutes() < 10 ? '0' + thisdate.getMinutes() : thisdate.getMinutes()
+              ],
+              onChange: function (values, displayValues) {
+                return  values[2]  + '-' + displayValues[0] + '-' + values[1]  + ' ' + values[3] + ':' + values[4];
+                //return displayValues[0] + ' ' + values[1] + ', ' + values[2] + ' ' + values[3] + ':' + values[4];
+              },
+              formatValue: function (values, displayValues) {
+                return  values[2]  + '-' + displayValues[0] + '-' + values[1]  + ' ' + values[3] + ':' + values[4];
+              },
+              cols: [
+                // Months
+                {
+                  values: ('0 1 2 3 4 5 6 7 8 9 10 11').split(' '),
+                  displayValues: ('01 02 03 04 05 06 07 08 09 10 11 12').split(' '),
+                  textAlign: 'left'
+                },
+                // Days
+                {
+                  //values: [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31],
+                  values: ('01 02 03 04 05 06 07 08 09 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31').split(' '),
+                },
+                // Years
+                {
+                  values: (function () {
+                    var arr = [];
+                    for (var i = 1950; i <= 2030; i++) { arr.push(i); }
+                      return arr;
+                  })(),
+                },
+                // Space divider
+                {
+                  divider: true,
+                  content: '&nbsp;&nbsp;'
+                },
+                // Hours
+                {
+                  values: (function () {
+                    var arr = [];
+                    for (var i = 0; i <= 23; i++) { arr.push(i); }
+                      return arr;
+                  })(),
+                },
+                // Divider
+                {
+                  divider: true,
+                  content: ':'
+                },
+                // Minutes
+                {
+                  values: (function () {
+                    var arr = [];
+                    for (var i = 0; i <= 59; i++) { arr.push(i < 10 ? '0' + i : i); }
+                      return arr;
+                  })(),
+                }
+              ],
+              on: {
+                change: function (picker, values, displayValues) {
+                  var daysInMonth = new Date(picker.value[2], picker.value[0]*1 + 1, 0).getDate();
+                  if (values[1] > daysInMonth) {
+                    picker.cols[1].setValue(daysInMonth);
+                  }
+                },
+              }
+            });
+        },
+    },
+    on: {
+        pageInit(e, page) {
+            var self = this;
+            var app = self.$app;
+            //self.fetchadminmenus(self.$route.params.id);
+            app.preloader.show();
+            //console.log(self.$route.previousRoute);
+            //Populate sportlists
+            var udata= { 
+              groupid:  app.root.userdata.groupid
+            }
+            self.populatesportlistdata(udata);
+
+            //check if create param
+            var groupid=self.$route.params.geventid;
+            if (groupid=='new') {
+                //do nothingf
+                app.preloader.hide();
+            }else {
+              self.fetchgroup(groupid);
+            }
+            self.$setState({
+                   currentid: groupid   
+                })
+            //console.log(self.currentid)
+
+           
+
+            //create form button functions get form data on click
+            $$('.form-save-data').on('click', function(){
+              var formData = app.form.convertToData('#my-gameform');
+              self.savegame(formData);
+              });
+              $$('.form-delete-data').on('click', function(){
+              var formData = app.form.convertToData('#my-gameform');
+              self.delgroup(formData);
+              });
+        },
+    },
+  };
+
+ 
+
+  
+  
+</script>

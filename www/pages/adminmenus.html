@@ -1,15 +1,15 @@
 <template>
-  <div class="page" data-name="catalog">
+  <div class="page" data-name="sportslist">
     <div class="navbar">
       <div class="navbar-inner sliding">
-        <div class="title">Games</div>
+        <div class="title">Admin</div>
       </div>
     </div>
     <div class="page-content">
       <div class="list links-list">
         <ul>
-          {{#each products}}
-            <li><a href="/product/{{id}}/">{{title}}</a></li>
+          {{#each menus}}
+            <li><a href="/{{gmenuroute}}/">{{gmenuname}}</a></li>
           {{/each}}
         </ul>
       </div>
@@ -20,7 +20,7 @@
   return {
     data: function () {
       return {
-        products: this.$root.products,
+        menus: this.$root.products,
       };
     }
   };

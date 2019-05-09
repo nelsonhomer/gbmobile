@@ -1,20 +1,83 @@
-<div class="page" data-name="settings">
-  <div class="navbar">
-    <div class="navbar-inner sliding">
-      <div class="title">Settings</div>
-    </div>
-  </div>
+  <template>
+    <div class="page" data-name="userdata">
+      <div class="navbar">
+        <div class="navbar-inner sliding">
+          <div class="left">
+            <a href="#" class="link back">
+              <i class="icon icon-back"></i>
+              <span class="ios-only">Back</span>
+            </a>
+          </div>
+          <div class="title">Profile</div>
+        </div>
+      </div>
+
+
   <div class="page-content">
-    <div class="block-title">Form Example</div>
+    <form class="list" id="my-userform">
+    
+    <div class="text-align-center" style="font-size:large"><b>Total Credits  [ <span style="color:red;font-size:large" id="usercredits">{{userdata.credits}} </span>]</b></div>
+    
     <div class="list no-hairlines-md">
       <ul>
+
         <li>
           <div class="item-content item-input">
             <div class="item-inner">
-              <div class="item-title item-label">Name</div>
+              <div class="item-title item-label">First Name</div>
               <div class="item-input-wrap">
-                <input type="text" placeholder="Your name"/>
+                <input type="hidden" name="guserid" />
+                <input type="hidden" name="gfbid" />
+                <input type="text" name="gfirstname" placeholder="First name"/>
               </div>
+            </div>
+          </div>
+        </li>
+        <li>
+            <div class="item-content item-input">
+              <div class="item-inner">
+                <div class="item-title item-label">Last Name</div>
+                <div class="item-input-wrap">
+                  <input type="text" name="glastname" placeholder="Last name"/>
+                </div>
+              </div>
+            </div>
+          </li>
+        <li>
+          <div class="item-content item-input">
+            <div class="item-inner">
+              <div class="item-title item-label">Middle Name</div>
+              <div class="item-input-wrap">
+                <input type="text" name="gmiddlename" placeholder="Middle name"/>
+              </div>
+            </div>
+          </div>
+        </li>
+        <li>
+          <div class="item-content item-input">
+            <div class="item-inner">
+              <div class="item-title item-label">Address 1</div>
+              <div class="item-input-wrap">
+                <input type="text" name="gaddress1" placeholder="Address 1"/>
+              </div>
+            </div>
+          </div>
+        </li>
+        <li>
+          <div class="item-content item-input">
+            <div class="item-inner">
+              <div class="item-title item-label">Address 2</div>
+              <div class="item-input-wrap">
+                <input type="text" name="gaddress2" placeholder="Address 2"/>
+              </div>
+            </div>
+          </div>
+        </li>
+        <li class="item-content item-input">
+          <div class="item-inner">
+            <div class="item-title item-label">Country</div>
+            <div class="item-input-wrap">
+              <input id="autocomplete-dropdown-country" name="gcountry" type="text" placeholder="Country">
             </div>
           </div>
         </li>
@@ -23,229 +86,179 @@
             <div class="item-inner">
               <div class="item-title item-label">E-mail</div>
               <div class="item-input-wrap">
-                <input type="email" placeholder="E-mail"/>
+                <input type="email" name="gemail" placeholder="E-mail"/>
               </div>
             </div>
           </div>
         </li>
-        <li>
-          <div class="item-content item-input">
-            <div class="item-inner">
-              <div class="item-title item-label">URL</div>
-              <div class="item-input-wrap">
-                <input type="url" placeholder="URL"/>
-              </div>
-            </div>
-          </div>
-        </li>
-        <li>
-          <div class="item-content item-input">
-            <div class="item-inner">
-              <div class="item-title item-label">Password</div>
-              <div class="item-input-wrap">
-                <input type="password" placeholder="Password"/>
-              </div>
-            </div>
-          </div>
-        </li>
-        <li>
+        
+      
           <div class="item-content item-input">
             <div class="item-inner">
               <div class="item-title item-label">Phone</div>
               <div class="item-input-wrap">
-                <input type="tel" placeholder="Phone"/>
+                <input type="tel" name="gmobile" placeholder="Phone"/>
               </div>
             </div>
           </div>
         </li>
+       
         <li>
-          <div class="item-content item-input">
-            <div class="item-inner">
-              <div class="item-title item-label">Gender</div>
-              <div class="item-input-wrap">
-                <select>
-                  <option>Male</option>
-                  <option>Female</option>
-                </select>
-              </div>
-            </div>
-          </div>
-        </li>
-        <li>
-          <div class="item-content item-input">
-            <div class="item-inner">
-              <div class="item-title item-label">Birth date</div>
-              <div class="item-input-wrap">
-                <input type="date" placeholder="Birth day" value="2014-04-30"/>
-              </div>
-            </div>
-          </div>
-        </li>
-        <li>
-          <div class="item-content">
-            <div class="item-inner">
-              <div class="item-title">Toggle</div>
-              <div class="item-after">
-                <label class="toggle toggle-init">
-                  <input type="checkbox">
-                  <span class="toggle-icon"></span>
-                </label>
-              </div>
-            </div>
-          </div>
-        </li>
-        <li>
-          <div class="item-content item-input">
-            <div class="item-inner">
-              <div class="item-title item-label">Slider</div>
-              <div class="item-input-wrap">
-                <div class="range-slider range-slider-init" data-label="true">
-                  <input type="range" value="50" min="0" max="100" step="1">
+            <div class="item-content item-input">
+              <div class="item-inner">
+                    <div class="item-input-wrap">
+                      <div class="col"><a class="button button-round button-fill form-save-data" href="#">Update Profile</a></div>
                 </div>
               </div>
             </div>
-          </div>
-        </li>
-        <li class="align-top">
-          <div class="item-content item-input">
-            <div class="item-inner">
-              <div class="item-title item-label">Textarea</div>
-              <div class="item-input-wrap">
-                <textarea placeholder="Bio"></textarea>
-              </div>
-            </div>
-          </div>
-        </li>
-        <li class="align-top">
-          <div class="item-content item-input">
-            <div class="item-inner">
-              <div class="item-title item-label">Resizable</div>
-              <div class="item-input-wrap">
-                <textarea placeholder="Bio" class="resizable"></textarea>
-              </div>
-            </div>
-          </div>
-        </li>
+          </li>
+        
+       
+        
       </ul>
     </div>
-    <div class="block-title">Buttons</div>
-    <div class="block block-strong">
-      <p class="row">
-        <a href="#" class="col button">Button</a>
-        <a href="#" class="col button button-fill">Fill</a>
-      </p>
-      <p class="row">
-        <a href="#" class="col button button-raised">Raised</a>
-        <a href="#" class="col button button-raised button-fill">Raised Fill</a>
-      </p>
-      <p class="row">
-        <a href="#" class="col button button-round">Round</a>
-        <a href="#" class="col button button-round button-fill">Round Fill</a>
-      </p>
-      <p class="row">
-        <a href="#" class="col button button-outline">Outline</a>
-        <a href="#" class="col button button-round button-outline">Outline Round</a>
-      </p>
-      <p class="row">
-        <a href="#" class="col button button-small button-outline">Small</a>
-        <a href="#" class="col button button-small button-round button-outline">Small Round</a>
-      </p>
-      <p class="row">
-        <a href="#" class="col button button-small button-fill">Small</a>
-        <a href="#" class="col button button-small button-round button-fill">Small Round</a>
-      </p>
-      <p class="row">
-        <a href="#" class="col button button-large button-raised">Large</a>
-        <a href="#" class="col button button-large button-fill button-raised">Large Fill</a>
-      </p>
-
-      <p class="row">
-        <a href="#" class="col button button-large button-fill button-raised color-red">Large Red</a>
-        <a href="#" class="col button button-large button-fill button-raised color-green">Large Green</a>
-      </p>
-
-    </div>
-    <div class="block-title">Checkbox group</div>
-    <div class="list">
-      <ul>
-        <li>
-          <label class="item-checkbox item-content">
-            <input type="checkbox" name="checkbox" value="Books" checked="checked"/>
-            <i class="icon icon-checkbox"></i>
-            <div class="item-inner">
-              <div class="item-title">Books</div>
-            </div>
-          </label>
-        </li>
-        <li>
-          <label class="item-checkbox item-content">
-            <input type="checkbox" name="checkbox" value="Movies"/>
-            <i class="icon icon-checkbox"></i>
-            <div class="item-inner">
-              <div class="item-title">Movies</div>
-            </div>
-          </label>
-        </li>
-        <li>
-          <label class="item-checkbox item-content">
-            <input type="checkbox" name="checkbox" value="Food"/>
-            <i class="icon icon-checkbox"></i>
-            <div class="item-inner">
-              <div class="item-title">Food</div>
-            </div>
-          </label>
-        </li>
-        <li>
-          <label class="item-checkbox item-content">
-            <input type="checkbox" name="checkbox" value="Drinks"/>
-            <i class="icon icon-checkbox"></i>
-            <div class="item-inner">
-              <div class="item-title">Drinks</div>
-            </div>
-          </label>
-        </li>
-      </ul>
-    </div>
-    <div class="block-title">Radio buttons group</div>
-    <div class="list">
-      <ul>
-        <li>
-          <label class="item-radio item-content">
-            <input type="radio" name="radio" value="Books" checked="checked"/>
-            <i class="icon icon-radio"></i>
-            <div class="item-inner">
-              <div class="item-title">Books</div>
-            </div>
-          </label>
-        </li>
-        <li>
-          <label class="item-radio item-content">
-            <input type="radio" name="radio" value="Movies"/>
-            <i class="icon icon-radio"></i>
-            <div class="item-inner">
-              <div class="item-title">Movies</div>
-            </div>
-          </label>
-        </li>
-        <li>
-          <label class="item-radio item-content">
-            <input type="radio" name="radio" value="Food"/>
-            <i class="icon icon-radio"></i>
-            <div class="item-inner">
-              <div class="item-title">Food</div>
-            </div>
-          </label>
-        </li>
-        <li>
-          <label class="item-radio item-content">
-            <input type="radio" name="radio" value="Drinks"/>
-            <i class="icon icon-radio"></i>
-            <div class="item-inner">
-              <div class="item-title">Drinks</div>
-            </div>
-          </label>
-        </li>
-      </ul>
-    </div>
+    
+    
+   
+  </form>  
   </div>
 </div>
+</template>
+<script>
+    return {
+      data: function () {
+        return {
+          userdata: app.root.userdata,
+        };
+      },
+      methods: {
+        savemyprofile() {
+          var self = this;
+            var app = self.$app;
+            //alert(app.root.userdata.groupid);
+            //alert(JSON.stringify($udata));
+            //return ;
+            app.preloader.show();
+            var formData = app.form.convertToData('#my-userform');
+            
+            //console.log(formData)
+            //app.preloader.hide();
+            //return ;
+            
+            app.request.post($base_url+'gameusers/update.php'+$base_param, JSON.stringify(formData) ,(data)=> {
+              
+              result=JSON.parse(data);
+              app.dialog.alert(result.message);
+              //console.log(eventtype);
+              
+              
+            });
+            //refresh data 
+            app.request.post($base_url+'gameusers/signin.php'+$base_param, JSON.stringify(formData) ,(data)=> {
+             
+              app.root.userdata=JSON.parse(data);
+              self.$setState({
+              userdata: app.root.userdata  
+              });
+              el=$$('.usercredits')
+              el.innerHTML=data.credits;
+              //preload form
+              
+            });
+            //preload form
+            app.preloader.hide();
+        },
+      },  
+      on: {
+            pageInit(e, page) {
+              
+              var self = this;
+              var app = self.$app;
+              app.preloader.show();
+              
+              var uid=document.getElementById('userID').value;
+              var uname=document.getElementById('userName').value;
+              var uem=document.getElementById('userEmail').value;
+              var udata= { gusername: uem,
+                gpassword: uem,
+                glastname: uname,
+                gfirstname: uname,
+                gmiddlename: uname,
+                gemail: uem,
+                gmobile: '',
+                gfbid: uid,
+                gaddress1: '',
+                gaddress2: '',
+                gcountry: ''
+              }
+
+              app.request.post($base_url+'gameusers/signin.php'+$base_param, JSON.stringify(udata) ,(data)=> {
+             
+                app.root.userdata=JSON.parse(data);
+                self.$setState({
+                userdata: app.root.userdata  
+                });
+              });
+
+
+
+
+             
+                userdata=app.root.userdata
+              
+              app.form.fillFromData('#my-userform', app.root.userdata);
+            //fetch countrylist from api
+            var autocompleteDropdownAjax = app.autocomplete.create({
+                inputEl: '#autocomplete-dropdown-country',
+                openIn: 'dropdown',
+                preloader: true, //enable preloader
+                /* If we set valueProperty to "id" then input value on select will be set according to this property */
+                valueProperty: 'name', //object's "value" property name
+                textProperty: 'name', //object's "text" property name
+                limit: 20, //limit to 20 results
+                dropdownPlaceholderText: 'Try "JavaScript"',
+                source: function (query, render) {
+                  var autocomplete = this;
+                  var results = [];
+                  if (query.length === 0) {
+                    render(results);
+                    return;
+                  }
+                  // Show Preloader
+                  autocomplete.preloaderShow();
+
+                  // Do Ajax request to Autocomplete data
+                  app.request({
+                    url: $base_url+'gcountries/list.php',
+                    method: 'GET',
+                    dataType: 'json',
+                    //send "query" to server. Useful in case you generate response dynamically
+                    data: {
+                      query: query,
+                    },
+                    success: function (data) {
+                      // Find matched items
+                      for (var i = 0; i < data.length; i++) {
+                        if (data[i].name.toLowerCase().indexOf(query.toLowerCase()) >= 0) results.push(data[i]);
+                      }
+                      // Hide Preoloader
+                      autocomplete.preloaderHide();
+                      // Render items by passing array with result items
+                      render(results);
+                    }
+                  });
+                }
+              });
+
+
+            $$('.form-save-data').on('click', function(){
+              //var formData = app.form.convertToData('#my-userform');
+              
+              self.savemyprofile();
+            });
+              app.preloader.hide();
+            },
+        },
+    };
+  </script>
+  

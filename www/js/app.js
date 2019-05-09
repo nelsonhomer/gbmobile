@@ -1,11 +1,13 @@
 // Dom7
 var $$ = Dom7;
 
-// Framework7 App main instance
+
+
+    // Framework7 App main instance
 var app  = new Framework7({
   root: '#app', // App root element
-  id: 'io.framework7.testapp', // App bundle ID
-  name: 'Framework7', // App name
+  id: 'io.framework7.gbf7.ninetySeven', // App bundle ID
+  name: 'Nintety Seven', // App name
   theme: 'auto', // Automatic theme detection
   // App root data
   data: function () {
@@ -31,7 +33,9 @@ var app  = new Framework7({
           title: 'Apple iPhone X',
           description: 'Expedita sequi perferendis quod illum pariatur aliquam, alias laboriosam! Vero blanditiis placeat, mollitia necessitatibus reprehenderit. Labore dolores amet quos, accusamus earum asperiores officiis assumenda optio architecto quia neque, quae eum.'
         },
-      ]
+      ],
+      userdata:{},
+      brokerdata:{}
     };
   },
   // App root methods
@@ -39,6 +43,33 @@ var app  = new Framework7({
     helloWorld: function () {
       app.dialog.alert('Hello World!');
     },
+    onBackKeyDown: function() {
+
+            var cpage = homeView.activePage;
+            var cpagename = cpage.name;
+            console.log(cpagename);
+            if (($$('#leftpanel').hasClass('active')) || ($$('#rightpanel').hasClass('active'))) { // #leftpanel and #rightpanel are id of both panels.
+                app.closePanel();
+                return false;
+            } else if ($$('.modal-in').length > 0) {
+                app.closeModal();
+                return false;
+            } else if (cpagename == 'index') {
+                    app.confirm('Are you sure you want to exit?', function() {
+                    // var deviceType = device.platform;
+                    // if(deviceType == “Android” || deviceType == “android”){
+                    navigator.app.exitApp();
+                    // }
+                },
+                function() {
+                });
+            } else {
+              homeView.router.back();
+            }
+
+    },
+    
+  //end App root Methods  
   },
   // App routes
   routes: routes,
@@ -51,19 +82,6 @@ var homeView = app.views.create('#view-home', {
 var catalogView = app.views.create('#view-catalog', {
   url: '/catalog/'
 });
-var settingsView = app.views.create('#view-settings', {
-  url: '/settings/'
-});
 
 
-// Login Screen Demo
-$$('#my-login-screen .login-button').on('click', function () {
-  var username = $$('#my-login-screen [name="username"]').val();
-  var password = $$('#my-login-screen [name="password"]').val();
 
-  // Close login screen
-  app.loginScreen.close('#my-login-screen');
-
-  // Alert username and password
-  app.dialog.alert('Username: ' + username + '<br>Password: ' + password);
-});

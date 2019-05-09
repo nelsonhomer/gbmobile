@@ -12,12 +12,36 @@ routes = [
     componentUrl: './pages/catalog.html',
   },
   {
+    path: '/sportslist/',
+    componentUrl: './pages/sportslist.html',
+  },
+  {
+    path: '/sportevent/:gtypeid/',
+    componentUrl: './pages/sportevent.html',
+  },
+  {
+    path: '/grouplist/',
+    componentUrl: './pages/grouplist.html',
+  },
+  {
+    path: '/group/:groupid/',
+    componentUrl: './pages/group.html',
+  },
+  {
+    path: '/gamelist/',
+    componentUrl: './pages/gamelist.html',
+  },
+  {
+    path: '/game/:geventid/',
+    componentUrl: './pages/game.html',
+  },
+  {
     path: '/product/:id/',
     componentUrl: './pages/product.html',
   },
   {
     path: '/settings/',
-    url: './pages/settings.html',
+    componentUrl: './pages/settings.html',
   },
   // Page Loaders & Router
   {
